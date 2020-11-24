@@ -1,3 +1,15 @@
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+      version = "1.22.2"
+    }
+  }
+  required_version = ">= 0.13"
+}
+
+
+
 provider "digitalocean" {
     token = "${var.token}"
 }
@@ -14,7 +26,8 @@ resource "digitalocean_droplet" "web" {
 connection {
         user = "root"
         type = "ssh"
-        private_key = "${file("~/.ssh/id_rsa_msa")}"
+        host = "${digitalocean_droplet.web.ipv4_address}"
+        private_key = "${file("~/.ssh/id_msa")}"
         timeout = "2m"
     }
     provisioner "remote-exec" {
@@ -23,8 +36,8 @@ connection {
           "apt-get update",
           "apt-get -y install git",
           "apt-get -y install nginx",
-          "git clone https://github.com/BlackrockDigital/startbootstrap-bare.git",
-          "cp -r startbootstrap-bare/. /var/www/html"
+          "git clone https://github.com/stevecosner/getbootstrap-starter.git",
+          "cp -r getbootstrap-starter/. /var/www/html"
           
         ]
 
