@@ -1,0 +1,4 @@
+# README
+
+token = "PASTETOKEN"
+ssh_keys = "PASTESSHFINGERPRINT"
